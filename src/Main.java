@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
         long loanAmount = (long) Main.getData("Principle: ", 100000, 10000000);
         float annualInterest = (float) Main.getData("Annual Interest Rate: ", 0, 30);
@@ -16,10 +15,10 @@ public class Main {
 
     public static double getData(String prompt, int minValue, int maxValue) {
         Scanner scanner = new Scanner(System.in);
-        double returnValue = 0;
+
         while (true) {
             System.out.print(prompt);
-            returnValue = scanner.nextDouble();
+            double returnValue = scanner.nextDouble();
             if (returnValue > minValue && returnValue <= maxValue)
                 return returnValue;
             System.out.println("Please Enter a amount between " + minValue + " and " + maxValue);
