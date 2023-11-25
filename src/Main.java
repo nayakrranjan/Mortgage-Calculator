@@ -52,7 +52,7 @@ public class Main {
                     (Math.pow( 1 + monthlyInterest, numberOfPayments) - Math.pow(1 + monthlyInterest, numberOfPaymentsDone))
                                 / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
 
-//            System.out.println(NumberFormat.getCurrencyInstance().format(remainingAmount));
+            System.out.println(NumberFormat.getCurrencyInstance().format(remainingAmount));
             System.out.println(remainingAmount);
             numberOfPaymentsDone++;
 
