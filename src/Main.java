@@ -2,15 +2,22 @@ import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class Main {
+    final static byte percent = 100;
+    final static byte monthsInYear = 12;
+
     public static void main(String[] args) {
 
         long loanAmount = (long) Main.getData("Principle: ", 100000, 10000000);
         float annualInterest = (float) Main.getData("Annual Interest Rate: ", 0, 30);
         short period = (short) Main.getData("Period(Years): ", 0, 15);
 
-        Double mortgage = Main.calculateMortgage(loanAmount, annualInterest, period);
+        int numberOfPayments = period * Main.monthsInYear;
+        float monthlyInterest = annualInterest/ Main.percent/ Main.monthsInYear;
+        double mortgage = Main.calculateMortgage(loanAmount, monthlyInterest, numberOfPayments);
 
-        System.out.print("Mortgage: " + NumberFormat.getCurrencyInstance().format(mortgage));
+        System.out.println("Mortgage \n========");
+        System.out.println("Monthly Payments: " + NumberFormat.getCurrencyInstance().format(mortgage));
+        Main.printPaymentSchedule(loanAmount, annualInterest, numberOfPayments);
     }
 
     public static double getData(String prompt, int minValue, int maxValue) {
@@ -25,15 +32,26 @@ public class Main {
         }
     }
 
-    public static double calculateMortgage (long loanAmount, float annualInterest, short period) {
-        final byte percent = 100;
-        final byte monthsInYear = 12;
-
-        float monthlyInterest = annualInterest/ percent/ monthsInYear;
-        int numberOfPayments = period * monthsInYear;
+    public static double calculateMortgage (long loanAmount, float monthlyInterest, int numberOfPayments) {
 
         return loanAmount *
                 (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments))
                 /(Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
+    }
+
+    public static void printPaymentSchedule(double loanAmount, float monthlyInterest, int numberOfPayments) {
+        int numberOfPaymentsDone = 0;
+
+        System.out.println("PAYMENT SCHEDULE \n================");
+        while (true) {
+            double remainingAmount = loanAmount * (
+                                                    Math.pow( 1 + monthlyInterest, numberOfPayments) -
+                                                            Math.pow(1 + monthlyInterest, numberOfPaymentsDone))
+                                    / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
+            numberOfPaymentsDone++;
+            System.out.println(NumberFormat.getCurrencyInstance().format(remainingAmount));
+            if (remainingAmount <= 0)
+                break;
+        }
     }
 }
