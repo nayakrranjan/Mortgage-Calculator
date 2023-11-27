@@ -15,13 +15,18 @@ public class Main {
         float monthlyInterest = annualInterest/ Main.percent/ Main.monthsInYear;
         double mortgage = Main.calculateMortgage(loanAmount, monthlyInterest, numberOfPayments);
 
-        printMortgage(mortgage, loanAmount, annualInterest, numberOfPayments);
+
+            printMortgage(mortgage, loanAmount, monthlyInterest, numberOfPayments);
     }
 
-    private static void printMortgage(double mortgage, long loanAmount, float annualInterest, int numberOfPayments) {
+    private static void printMortgage(double mortgage, long loanAmount, float monthlyInterest, int numberOfPayments) {
         System.out.println("Mortgage \n========");
         System.out.println("Monthly Payments: " + NumberFormat.getCurrencyInstance().format(mortgage));
-        Main.printPaymentSchedule(loanAmount, annualInterest, numberOfPayments);
+        System.out.println("PAYMENT SCHEDULE");
+        System.out.println("================");
+        for(int numberOfPaymentsDone = 0; numberOfPaymentsDone <= numberOfPayments; numberOfPaymentsDone++) {
+            Main.printPaymentSchedule(loanAmount, monthlyInterest, numberOfPayments, numberOfPaymentsDone);
+        }
     }
 
     public static double getData(String prompt, int minValue, int maxValue) {
@@ -43,21 +48,12 @@ public class Main {
                 /(Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
     }
 
-    public static void printPaymentSchedule(double loanAmount, float monthlyInterest, int numberOfPayments) {
-        int numberOfPaymentsDone = 0;
+    public static void printPaymentSchedule(double loanAmount, float monthlyInterest, int numberOfPayments, int numberOfPaymentsDone) {
 
-        System.out.println("PAYMENT SCHEDULE \n================");
-        while (true) {
             double remainingAmount = loanAmount *
                     (Math.pow( 1 + monthlyInterest, numberOfPayments) - Math.pow(1 + monthlyInterest, numberOfPaymentsDone))
                                 / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
 
             System.out.println(NumberFormat.getCurrencyInstance().format(remainingAmount));
-            System.out.println(remainingAmount);
-            numberOfPaymentsDone++;
-
-            if (remainingAmount <= 0)
-                break;
-        }
     }
 }
