@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        long loanAmount = (long) Main.getData("Principle: ", 100000, 10000000);
+        long loanAmount = (long) Main.getData("Principle: ", 99999, 10000000);
         float annualInterest = (float) Main.getData("Annual Interest Rate: ", 0, 30);
         short period = (short) Main.getData("Period(Years): ", 0, 15);
 
@@ -20,8 +20,11 @@ public class Main {
     }
 
     private static void printMortgage(double mortgage, long loanAmount, float monthlyInterest, int numberOfPayments) {
-        System.out.println("Mortgage \n========");
+        System.out.println("Mortgage");
+        System.out.println("========");
+        System.out.println();
         System.out.println("Monthly Payments: " + NumberFormat.getCurrencyInstance().format(mortgage));
+        System.out.println();
         System.out.println("PAYMENT SCHEDULE");
         System.out.println("================");
         for(int numberOfPaymentsDone = 0; numberOfPaymentsDone <= numberOfPayments; numberOfPaymentsDone++) {
